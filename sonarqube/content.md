@@ -92,6 +92,16 @@ $ docker build --tag=sonarqube-custom .
 $ docker run -ti sonarqube-custom
 ```
 
+### Avoid hard termination of SonarQube
+
+Starting from SonarQube 7.8, SonarQube stops gracefully, waiting for any task in progress to finish.
+Waiting for in progress task to finish can take a large amount of time which is not expected by docker `stop` command by default.
+To avoid having you SonarQube instance killed by the Docker daemon after 10 seconds, it is best to use the following command line:
+
+```console
+docker stop --time 3600
+```
+
 ## Administration
 
 The administration guide can be found [here](https://redirect.sonarsource.com/doc/administration-guide.html).
