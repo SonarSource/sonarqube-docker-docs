@@ -66,7 +66,7 @@ The images contain the SonarQube installation at `/opt/sonarqube`. You need to u
 
 ### First installation
 
-Follow these steps on your first installation:
+Follow these steps for your first installation:
 
 1. Create a `sonarqube_home` folder and create a var env `$SQ_HOME` pointing to it:
 ```console
@@ -77,12 +77,35 @@ $ export SQ_HOME=/path/to/your/filesystem/sq_home
 ```console
 $ docker run --rm \
  -v $SQ_HOME/conf:/opt/sonarqube/conf \
- -v $SQ_HOME/extensions:/opt/sonarqube/extensions \
+ -v $SQ_HOME/extensions:/opt/sonarqub
+ e/extensions \
  -v $SQ_HOME/data:/opt/sonarqube/data \
  sonarqube --init
 ```
-3. Configure sonar.properties & follow the normal first installation procedure (TODO add a link).
-4. Run the image:
+3. Configure sonar.properties to configure the database settings. Templates are available for every supported database. Just uncomment and configure the template you need and comment out the lines dedicated to H2:
+```
+Example for PostgreSQL
+sonar.jdbc.username=sonarqube
+sonar.jdbc.password=mypassword
+sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
+```
+
+4. Drivers for the supported databases (except Oracle) are already provided. Do not replace the provided drivers; they are the only ones supported.
+
+For Oracle, copy the JDBC driver into $SONARQUBE-HOME/extensions/jdbc-driver/oracle.
+
+5. By default, SonarQube is configured to run on any computer with a simple Java JRE.
+
+For better performance, the first thing to do when installing a production instance is to use a Java JDK and activate the server mode by uncommenting/setting the following line in $SONARQUBE-HOME/conf/sonar.properties:
+```
+sonar.web.javaOpts=-server
+```
+To change the Java JVM used by SonarQube, simply edit $SONARQUBE-HOME/conf/wrapper.conf and update the following line:
+```
+wrapper.java.command=/path/to/my/jdk/bin/java
+```
+
+6. Run the image:
 ```console
 $ docker run -d --name sonarqube \
     -p 9000:9000 \
@@ -92,35 +115,39 @@ $ docker run -d --name sonarqube \
     -v $SQ_HOME/data:/opt/sonarqube/data \
     sonarqube
 ```
-5. enjoy
-
 
 ## Upgrade SonarQube
 Follow these steps to upgrade SonarQube:
 
-1. Create a new `sonarqube_home` folder, and update the var env `$SQ_HOME` pointing to it. Backup the old one:
+1. Create a new `sonarqube_home` folder and backup your old folder.
+
+2. Update the var env `$SQ_HOME` pointing to it. Backup the old one:
 ```console
 $ mkdir /path/to/your/filesystem/sq_home81
 $ export SQ_HOME=/path/to/your/filesystem/sq_home81
 ```
-2. Initialize the new `SQ_HOME` with `--init`:
+
+3. Initialize the new `SQ_HOME` with `--init`:
 ```console
 $ docker run --rm \
     -v $SQ_HOME/conf:/opt/sonarqube/conf \
     -v $SQ_HOME/extensions:/opt/sonarqube/extensions \
     -v $SQ_HOME/data:/opt/sonarqube/data \
-    sonarqube --init
+    sonarqube --init  
 ```
-3. Follow the normal upgrade procedure https://docs.sonarqube.org/latest/setup/upgrading/
+
+4. Follow the normal upgrade procedure https://docs.sonarqube.org/latest/setup/upgrading/
   - Manually install the non-default plugins
   - Update the contents of sonar.properties and wrapper.conf
-  - etc.
-4. Stop and remove the sonarqube container (restart is not enough as the env variable are not evaluated only during the first run, not during the restart):
+  - etc.  
+  
+5. Stop and remove the sonarqube container (restart is not enough as the env variable are not evaluated only during the first run, not during the restart):
 ```console
 $ docker stop sonarqube
 $ docker rm sonarqube
-```
-5. Run docker:
+```  
+
+6. Run docker:
 ```console
 $ docker run -d --name sq -p 9000:9000 \
     -v $SQ_HOME/conf:/opt/sonarqube/conf \
