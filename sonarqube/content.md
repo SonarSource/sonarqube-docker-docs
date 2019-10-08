@@ -91,15 +91,15 @@ sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
 
 4. Drivers for the supported databases (except Oracle) are already provided. Do not replace the provided drivers; they are the only ones supported.
 
-For Oracle, copy the JDBC driver into $SONARQUBE-HOME/extensions/jdbc-driver/oracle.
+For Oracle, copy the JDBC driver into $SQ_HOME/extensions/jdbc-driver/oracle.
 
 5. By default, SonarQube is configured to run on any computer with a simple Java JRE.
 
-For better performance, the first thing to do when installing a production instance is to use a Java JDK and activate the server mode by uncommenting/setting the following line in $SONARQUBE-HOME/conf/sonar.properties:
+For better performance, the first thing to do when installing a production instance is to use a Java JDK and activate the server mode by uncommenting/setting the following line in $SQ_HOME/conf/sonar.properties:
 ```
 sonar.web.javaOpts=-server
 ```
-To change the Java JVM used by SonarQube, simply edit $SONARQUBE-HOME/conf/wrapper.conf and update the following line:
+To change the Java JVM used by SonarQube, simply edit $SQ_HOME/conf/wrapper.conf and update the following line:
 ```
 wrapper.java.command=/path/to/my/jdk/bin/java
 ```
