@@ -78,7 +78,7 @@ $ export SQ_HOME=/path/to/your/filesystem/sq_home
 $ docker run --rm \
  -v $SQ_HOME/conf:/opt/sonarqube/conf \
  -v $SQ_HOME/extensions:/opt/sonarqub
- e/extensions \
+-v $SQ_HOME/extensions:/opt/sonarqube/extensions \
  -v $SQ_HOME/data:/opt/sonarqube/data \
  sonarqube --init
 ```
