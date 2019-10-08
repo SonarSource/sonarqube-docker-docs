@@ -23,7 +23,7 @@ ulimit -u 4096
 
 ## Get Started in Two Minutes Guide
 
-/!\  This section shows you how to install a demo instance. When you are ready to move to production, take some time to read the Configuration section below.
+/!\  This section shows you how to quickly run a demo instance. When you are ready to move to a more sustainable setup, take some time to read the **Configuration** section below.
 
 Start the server by running:
 
@@ -68,17 +68,17 @@ The images contain the SonarQube installation at `/opt/sonarqube`. You need to u
 
 Follow these steps for your first installation:
 
-1. Create a `sonarqube_home` folder and create a var env `$SQ_HOME` pointing to it:
+1. Create a `sonarqube_home` folder and create a var env `$SONARQUBE_HOME` pointing to it:
 ```console
-$ mkdir /path/to/your/filesystem/sq_home
-$ export SQ_HOME=/path/to/your/filesystem/sq_home
+$ mkdir /path/to/your/filesystem/sonarqube_home
+$ export SQ_HOME=/path/to/your/filesystem/sonarqube_home
 ```
 2. Initialize SQ_HOME folder tree with `--init`. This will initialize the default configuration, copy embedded plugins, and prepare the data folder:
 ```console
 $ docker run --rm \
- -v $SQ_HOME/conf:/opt/sonarqube/conf \
- -v $SQ_HOME/extensions:/opt/sonarqube/extensions \
- -v $SQ_HOME/data:/opt/sonarqube/data \
+ -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
+ -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
+ -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
  sonarqube --init
 ```
 3. Configure sonar.properties to configure the database settings. Templates are available for every supported database. Just uncomment and configure the template you need and comment out the lines dedicated to H2:
@@ -91,54 +91,50 @@ sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
 
 4. Drivers for the supported databases (except Oracle) are already provided. Do not replace the provided drivers; they are the only ones supported.
 
-For Oracle, copy the JDBC driver into $SQ_HOME/extensions/jdbc-driver/oracle.
+For Oracle, copy the JDBC driver into $SONARQUBE_HOME/extensions/jdbc-driver/oracle.
 
 5. By default, SonarQube is configured to run on any computer with a simple Java JRE.
 
-For better performance, the first thing to do when installing a production instance is to use a Java JDK and activate the server mode by uncommenting/setting the following line in $SQ_HOME/conf/sonar.properties:
+For better performance, the first thing to do when configuring an instance is to use a Java JDK and activate the server mode by uncommenting/setting the following line in $SONARQUBE_HOME/conf/sonar.properties:
 ```
 sonar.web.javaOpts=-server
-```
-To change the Java JVM used by SonarQube, simply edit $SQ_HOME/conf/wrapper.conf and update the following line:
-```
-wrapper.java.command=/path/to/my/jdk/bin/java
 ```
 
 6. Run the image:
 ```console
 $ docker run -d --name sonarqube \
     -p 9000:9000 \
-    -v $SQ_HOME/conf:/opt/sonarqube/conf \
-    -v $SQ_HOME/extensions:/opt/sonarqube/extensions \
-    -v $SQ_HOME/logs:/opt/sonarqube/logs \
-    -v $SQ_HOME/data:/opt/sonarqube/data \
+    -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
+    -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
+    -v $SONARQUBE_HOME/logs:/opt/sonarqube/logs \
+    -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
     sonarqube
 ```
 
 ## Upgrade SonarQube
 Follow these steps to upgrade SonarQube:
 
-1. Create a new `sonarqube_home` folder and backup your old folder.
+1. Create a new `sonarqube_home_new` folder and backup your old folder.
 
-2. Update the var env `$SQ_HOME` pointing to it. Backup the old one:
+2. Update the var env `$SONARQUBE_HOME` pointing to it. Backup the old one:
 ```console
 $ mkdir /path/to/your/filesystem/sq_home81
-$ export SQ_HOME=/path/to/your/filesystem/sq_home81
+$ export SONARQUBE_HOME=/path/to/your/filesystem/sonarqube_home_new
 ```
 
 3. Initialize the new `SQ_HOME` with `--init`:
 ```console
 $ docker run --rm \
-    -v $SQ_HOME/conf:/opt/sonarqube/conf \
-    -v $SQ_HOME/extensions:/opt/sonarqube/extensions \
-    -v $SQ_HOME/data:/opt/sonarqube/data \
+    -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
+    -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
+    -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
     sonarqube --init  
 ```
 
-4. Follow the normal upgrade procedure https://docs.sonarqube.org/latest/setup/upgrading/
-  - Manually install the non-default plugins
-  - Update the contents of sonar.properties and wrapper.conf
-  - etc.  
+4. Take a look at the [Upgrade Guide](https://docs.sonarqube.org/latest/setup/upgrading/) for information on:
+  - Manually installing the non-default plugins
+  - Updating the contents of sonar.properties and wrapper.conf
+  - Copying the Oracle DB JDBC driver if needed  
   
 5. Stop and remove the sonarqube container (restart is not enough as the env variable are not evaluated only during the first run, not during the restart):
 ```console
@@ -149,20 +145,23 @@ $ docker rm sonarqube
 6. Run docker:
 ```console
 $ docker run -d --name sq -p 9000:9000 \
-    -v $SQ_HOME/conf:/opt/sonarqube/conf \
-    -v $SQ_HOME/extensions:/opt/sonarqube/extensions \
-    -v $SQ_HOME/logs:/opt/sonarqube/logs \
-    -v $SQ_HOME/data:/opt/sonarqube/data \
+    -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
+    -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
+    -v $SONARQUBE_HOME/logs:/opt/sonarqube/logs \
+    -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
     sonarqube
 ```
+7. Browse to `http://yourSonarQubeServerURL/setup` and follow the setup instructions.
 
-Other option : use a symlink instead of an env. variable
+8. Reanalyze your projects to get fresh data.
+
+**Note:** If you're using Linux, you can use a symlink instead of an environment variable.
 
 ## Advanced configuration
 
 #### Use parameters via Docker environment variables
 
-The production database can be configured with the following SonarQube properties used as environment variables: `sonar.jdbc.username`, `sonar.jdbc.password` and `sonar.jdbc.url`.
+The database can be configured with the following SonarQube properties used as environment variables: `sonar.jdbc.username`, `sonar.jdbc.password` and `sonar.jdbc.url`.
 
 ```console
 $ docker run -d --name sonarqube \
@@ -170,10 +169,10 @@ $ docker run -d --name sonarqube \
     -e sonar.jdbc.username=sonar \
     -e sonar.jdbc.password=sonar \
     -e sonar.jdbc.url=jdbc:postgresql://localhost/sonar \
-    -v $SQ_HOME/conf:/opt/sonarqube/conf \
-    -v $SQ_HOME/extensions:/opt/sonarqube/extensions \
-    -v $SQ_HOME/logs:/opt/sonarqube/logs \
-    -v $SQ_HOME/data:/opt/sonarqube/data \
+    -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
+    -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
+    -v $SONARQUBE_HOME/logs:/opt/sonarqube/logs \
+    -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
     sonarqube
 ```
 
