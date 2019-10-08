@@ -79,7 +79,7 @@ $ docker run --rm \
  -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
  -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
  -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
- sonarqube --init
+ %%IMAGE%% --init
 ```
 3. Configure sonar.properties to configure the database settings. Templates are available for every supported database. Just uncomment and configure the template you need and comment out the lines dedicated to H2:
 ```
@@ -108,7 +108,7 @@ $ docker run -d --name sonarqube \
     -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
     -v $SONARQUBE_HOME/logs:/opt/sonarqube/logs \
     -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
-    sonarqube
+    %%IMAGE%%
 ```
 
 ## Upgrade SonarQube
@@ -128,7 +128,7 @@ $ docker run --rm \
     -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
     -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
     -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
-    sonarqube --init  
+    %%IMAGE%% --init  
 ```
 
 4. Take a look at the [Upgrade Guide](https://docs.sonarqube.org/latest/setup/upgrading/) for information on:
@@ -138,8 +138,8 @@ $ docker run --rm \
   
 5. Stop and remove the sonarqube container (restart is not enough as the env variable are not evaluated only during the first run, not during the restart):
 ```console
-$ docker stop sonarqube
-$ docker rm sonarqube
+$ docker stop %%IMAGE%%
+$ docker rm %%IMAGE%%
 ```  
 
 6. Run docker:
@@ -149,7 +149,7 @@ $ docker run -d --name sq -p 9000:9000 \
     -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
     -v $SONARQUBE_HOME/logs:/opt/sonarqube/logs \
     -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
-    sonarqube
+    %%IMAGE%%
 ```
 7. Browse to `http://yourSonarQubeServerURL/setup` and follow the setup instructions.
 
@@ -173,7 +173,7 @@ $ docker run -d --name sonarqube \
     -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
     -v $SONARQUBE_HOME/logs:/opt/sonarqube/logs \
     -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
-    sonarqube
+    %%IMAGE%%
 ```
 
 Use of the environment variables `SONARQUBE_JDBC_USERNAME`, `SONARQUBE_JDBC_PASSWORD`, and `SONARQUBE_JDBC_URL` is deprecated and will stop working in future releases.
