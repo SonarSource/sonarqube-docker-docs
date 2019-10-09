@@ -180,7 +180,6 @@ Use of the environment variables `SONARQUBE_JDBC_USERNAME`, `SONARQUBE_JDBC_PASS
 
 More recipes can be found [here](https://github.com/SonarSource/docker-sonarqube/blob/master/recipes.md).
 
-You can pass `sonar.` configuration properties as Docker environment variables, as demonstrated in the example above for database configuration.
 
 ### Customized image
 
