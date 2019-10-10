@@ -6,7 +6,7 @@
 
 # How to use this image
 
-Here you'll find the Docker image for the Community Edition of SonarQube and preview versions of the Docker images for Developer Edition and Enterprise Edition.
+Here you'll find the Docker image for the Community Edition of SonarQube and beta versions of the Docker images for Developer Edition and Enterprise Edition.
 
 ## Docker Host Requirements
 
