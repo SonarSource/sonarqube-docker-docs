@@ -68,13 +68,14 @@ The images contain the SonarQube installation at `/opt/sonarqube`. You need to u
 
 Follow these steps for your first installation:
 
-1. Create a `sonarqube_home` folder and create a var env `$SONARQUBE_HOME` pointing to it:
+1. Create a `sonarqube_home` folder and create a environment variable `$SONARQUBE_HOME` pointing to it:
 
 ```console
 $ mkdir /path/to/your/filesystem/sonarqube_home
-$ export SQ_HOME=/path/to/your/filesystem/sonarqube_home
+$ export SONARQUBE_HOME=/path/to/your/filesystem/sonarqube_home
 ```
-2. Initialize SQ_HOME folder tree with `--init`. This will initialize the default configuration, copy embedded plugins, and prepare the data folder:
+
+2. Initialize SONARQUBE_HOME folder tree with `--init`. This will initialize the default configuration, copy embedded plugins, and prepare the data folder:
 
 ```console
 $ docker run --rm \
@@ -97,15 +98,7 @@ sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
 
    For Oracle, copy the JDBC driver into $SONARQUBE_HOME/extensions/jdbc-driver/oracle.
 
-5. By default, SonarQube is configured to run on any computer with a simple Java JRE.
-
-   For better performance, the first thing to do when configuring an instance is to use a Java JDK and activate the server mode by uncommenting/setting the following line in $SONARQUBE_HOME/conf/sonar.properties:
-   
-```
-sonar.web.javaOpts=-server
-```
-
-6. Run the image:
+5. Run the image:
 
 ```console
 $ docker run -d --name sonarqube \
@@ -122,16 +115,14 @@ Follow these steps to upgrade SonarQube:
 
 1. Create a new `sonarqube_home_new` folder and backup your old folder.
 
-2. Update the var env `$SONARQUBE_HOME` pointing to it. Backup the old one:
+2. Update the environment variable `$SONARQUBE_HOME` pointing to it. Backup the old one:
 
 ```console
-$ mkdir /path/to/your/filesystem/sq_home81
+$ mkdir /path/to/your/filesystem/sonarqube_home_new
 $ export SONARQUBE_HOME=/path/to/your/filesystem/sonarqube_home_new
 ```
 
-   **Note:** If you're using Linux, you can use a symlink instead of an environment variable.
-
-3. Initialize the new `SQ_HOME` with `--init`:
+3. Initialize the new `SONARQUBE_HOME` with `--init`:
 
 ```console
 $ docker run --rm \
