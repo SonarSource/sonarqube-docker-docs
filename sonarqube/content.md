@@ -68,45 +68,46 @@ The images contain the SonarQube installation at `/opt/sonarqube`. You need to u
 
 Follow these steps for your first installation:
 
-1.	Create a `sonarqube_home` folder and create a environment variable `$SONARQUBE_HOME` pointing to it:
+1. Create a `sonarqube_home` folder and create a environment variable `$SONARQUBE_HOME` pointing to it:  
 
-```console
-$ mkdir /path/to/your/filesystem/sonarqube_home
-$ export SONARQUBE_HOME=/path/to/your/filesystem/sonarqube_home
-```
+   ```console
+   $ mkdir /path/to/your/filesystem/sonarqube_home
+   $ export SONARQUBE_HOME=/path/to/your/filesystem/sonarqube_home
+   ```
 
-1.	Initialize SONARQUBE_HOME folder tree with `--init`. This will initialize the default configuration, copy embedded plugins, and prepare the data folder:
+2. Initialize SONARQUBE_HOME folder tree with `--init`. This will initialize the default configuration, copy embedded plugins, and prepare the data folder:
 
-```console
-$ docker run --rm \
- -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
- -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
- -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
- %%IMAGE%% --init
-```
+    ```console
+    $ docker run --rm \
+     -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
+     -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
+     -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
+     %%IMAGE%% --init
+    ```
 
-1.	Configure sonar.properties to configure the database settings. Templates are available for every supported database. Just uncomment and configure the template you need and comment out the lines dedicated to H2:
+3. Configure sonar.properties to configure the database settings. Templates are available for every supported database. Just uncomment and configure the template you need and comment out the lines dedicated to H2:
 
-	Example for PostgreSQL
-	sonar.jdbc.username=sonarqube
-	sonar.jdbc.password=mypassword
-	sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
-
-1.	Drivers for the supported databases (except Oracle) are already provided. Do not replace the provided drivers; they are the only ones supported.
-
+   ```
+   #Example for PostgreSQL
+   sonar.jdbc.username=sonarqube
+   sonar.jdbc.password=mypassword
+   sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
+   ```
+   
+4.	Drivers for the supported databases (except Oracle) are already provided. Do not replace the provided drivers; they are the only ones supported.  
 For Oracle, copy the JDBC driver into $SONARQUBE_HOME/extensions/jdbc-driver/oracle.
 
-1.	Run the image:
+5.	Run the image:
 
-```console
-$ docker run -d --name sonarqube \
-    -p 9000:9000 \
-    -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
-    -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
-    -v $SONARQUBE_HOME/logs:/opt/sonarqube/logs \
-    -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
-    %%IMAGE%%
-```
+   ```console
+   $ docker run -d --name sonarqube \
+       -p 9000:9000 \
+       -v $SONARQUBE_HOME/conf:/opt/sonarqube/conf \
+       -v $SONARQUBE_HOME/extensions:/opt/sonarqube/extensions \
+       -v $SONARQUBE_HOME/logs:/opt/sonarqube/logs \
+       -v $SONARQUBE_HOME/data:/opt/sonarqube/data \
+       %%IMAGE%%
+   ```
 
 ## Upgrade SonarQube
 
