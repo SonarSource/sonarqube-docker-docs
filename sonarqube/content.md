@@ -6,7 +6,7 @@
 
 # How to use this image
 
-Here you'll find the Docker images for the Community Edition, Developer Edition, Enterprise Edition and Datacenter Edition of SonarQube.
+Here you'll find the Docker images for the Community Edition, Developer Edition, Enterprise Edition, and Datacenter Edition of SonarQube.
 
 ## Docker Host Requirements
 
@@ -31,7 +31,7 @@ To quickly run a demo instance, see Using Docker on the [Get Started in Two Minu
 
 By default, the image will use an embedded H2 database that is not suited for production.
 
-> **Warning:** Only a single instance of SonarQube can connect to a database schema. If you're using a Docker Swarm or Kubernetes, make sure that multiple SonarQube instances are never running on the same database schema simultaneously. This will cause SonarQube to behave unpredictably and data will be corrupted. There is no safeguard until [SONAR-10362](https://jira.sonarsource.com/browse/SONAR-10362). The Datacenter Edition has the same limitation as in only one cluster can connect to one database schema at the same time.
+> **Warning:** Only a single instance of SonarQube can connect to a database schema. If you're using a Docker Swarm or Kubernetes, make sure that multiple SonarQube instances are never running on the same database schema simultaneously. This will cause SonarQube to behave unpredictably and data will be corrupted. There is no safeguard until [SONAR-10362](https://jira.sonarsource.com/browse/SONAR-10362). The Datacenter Edition has the same limitation in that only one cluster can connect to one database schema at the same time.
 
 Set up a database by following the "Installing the Database" section of https://docs.sonarqube.org/latest/setup/install-server/.
 
@@ -52,7 +52,7 @@ For installation instructions, see Installing the Server from the Docker Image o
 
 ### Datacenter Installation
 
-If you want to run Sonarqube in a Cluster, please refere to the [Installing SonarQube from the Docker Image section](https://docs.sonarqube.org/latest/setup/install-cluster/#header-4) on the [Install Cluster Guide](https://docs.sonarqube.org/latest/setup/install-cluster/).
+If you want to run SonarQube in a cluster, please refer to the [Installing SonarQube from the Docker Image section](https://docs.sonarqube.org/latest/setup/install-cluster/#header-4) of the [Install the  Server as a Cluster guide](https://docs.sonarqube.org/latest/setup/install-cluster/).
 
 ## Upgrading
 
