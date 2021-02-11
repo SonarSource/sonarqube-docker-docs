@@ -6,7 +6,7 @@
 
 # How to use this image
 
-Here you'll find the Docker images for the Community Edition, Developer Edition, Enterprise Edition, and Datacenter Edition of SonarQube.
+Here you'll find the Docker images for the Community Edition, Developer Edition, Enterprise Edition, and DataCenter Edition of SonarQube.
 
 ## Docker Host Requirements
 
@@ -50,9 +50,7 @@ We recommend creating volumes for the following directories:
 
 For installation instructions, see Installing the Server from the Docker Image on the [Install the Server](https://docs.sonarqube.org/latest/setup/install-server/) page.
 
-### Datacenter Installation
-
-If you want to run SonarQube in a cluster, please refer to the [Installing SonarQube from the Docker Image section](https://docs.sonarqube.org/latest/setup/install-cluster/#header-4) of the [Install the  Server as a Cluster guide](https://docs.sonarqube.org/latest/setup/install-cluster/).
+To run a cluster with the DataCenter Edition, please refer to Installing SonarQube from the Docker Image on the [Install the Server as a Cluster](https://docs.sonarqube.org/latest/setup/install-cluster/) page.
 
 ## Upgrading
 
