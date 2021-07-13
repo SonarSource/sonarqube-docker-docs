@@ -15,10 +15,10 @@ Because SonarQube uses an embedded Elasticsearch, make sure that your Docker hos
 For example, on Linux, you can set the recommended values for the current session by running the following commands as root on the host:
 
 ```console
-sysctl -w vm.max_map_count=262144
-sysctl -w fs.file-max=65536
-ulimit -n 65536
-ulimit -u 4096
+sysctl -w vm.max_map_count=524288
+sysctl -w fs.file-max=131072
+ulimit -n 131072
+ulimit -u 8192
 ```
 
 ## Try Out SonarQube
